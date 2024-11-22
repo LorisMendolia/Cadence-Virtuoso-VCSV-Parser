@@ -55,13 +55,25 @@ def vcsv_parser(file_path):
 			params_dict = dict(param.split('=') for param in params.split('|'))
 			metadata['signals'].append({'name': name, 'parameters': params_dict})
 
-	param_names = [list(signal['parameters'].keys()) for signal in metadata['signals']]
-	if not all(lst == param_names[0] for lst in param_names):
-		raise ValueError('Signal parameters do not match, not supported yet')
-	param_names = param_names[0]
-	nb_params = len(param_names)
+	params_found = True
+	if not metadata['signals']:
+		metadata['signals'] = signals
+		params_found = False
 
-	signal_names = list(dict.fromkeys([signal['name'] for signal in metadata['signals']]))
+	if params_found:
+		param_names = [list(signal['parameters'].keys()) for signal in metadata['signals']]
+		if not all(lst == param_names[0] for lst in param_names):
+			raise ValueError('Signal parameters do not match, not supported yet')
+		param_names = param_names[0]
+		nb_params = len(param_names)
+	else:
+		param_names = None
+		nb_params = 0
+
+	if params_found:
+		signal_names = list(dict.fromkeys([signal['name'] for signal in metadata['signals']]))
+	else:
+		signal_names = metadata['signals']
 	nb_signals = len(signal_names)
 
 	data_array = np.array(data_rows, dtype=float)
@@ -76,20 +88,23 @@ def vcsv_parser(file_path):
 	elif x.shape[1] != data_array.shape[1]:
 		raise ValueError('X-axis values are inconsistent')
 		
-	if nb_signals > 1:
+	if nb_signals > 1 and params_found:
 		raise ValueError('Multiple signals not supported yet')
 	if not unique_xaxis:
 		raise ValueError('Multiple x-axis not supported yet')
 
 	# Create a list of all parameter combinations
-	parameter_combinations = []
-	for signal in metadata['signals']:
-		parameter_combinations.append(np.array(list(signal['parameters'].values()), dtype=float))
-	parameter_combinations = np.array(parameter_combinations)
+	if params_found:
+		parameter_combinations = []
+		for signal in metadata['signals']:
+			parameter_combinations.append(np.array(list(signal['parameters'].values()), dtype=float))
+		parameter_combinations = np.array(parameter_combinations)
 
-	multi_index = pd.MultiIndex.from_arrays(parameter_combinations.T, names=param_names)
-	
-	# Create a DataFrame with the data
-	data = pd.DataFrame(data_array[:,1::2].T, index=multi_index, columns=x)
+		multi_index = pd.MultiIndex.from_arrays(parameter_combinations.T, names=param_names)
+		
+		# Create a DataFrame with the data
+		data = pd.DataFrame(data_array[:,1::2].T, index=multi_index, columns=x)
+	else:
+		data = pd.DataFrame(data_array[:,1::2], index=x, columns=signal_names)
 
 	return metadata, data
