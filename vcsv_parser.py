@@ -1,3 +1,10 @@
+# Author: Loris Mendolia
+# Date: 2025-05-16
+# This script parses a Cadence Virtuoso VCSV file and extracts metadata and data into a pandas DataFrame.
+# The script assumes the file is well-formed and does not handle all possible errors. This is an alpha version.
+# The script is not intended for production use and should be tested with various VCSV files to ensure robustness.
+# License: GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
+
 import pandas as pd
 import re
 import numpy as np
