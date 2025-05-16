@@ -1,5 +1,6 @@
 # Author: Loris Mendolia
 # Date: 2025-05-16
+# Version Alpha V0.0.1
 # This script parses a Cadence Virtuoso VCSV file and extracts metadata and data into a pandas DataFrame.
 # The script assumes the file is well-formed and does not handle all possible errors. This is an alpha version.
 # The script is not intended for production use and should be tested with various VCSV files to ensure robustness.
