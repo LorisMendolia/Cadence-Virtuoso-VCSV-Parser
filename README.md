@@ -14,16 +14,19 @@ To export multiple signals from a single simulation run, select all the signals 
 To export simulations from a parameter sweep, this script currently only supports reading data from one signal (one "Output" in Cadence Virtuoso). To read multiple outputs, you will need to export multiple VCSV files. Before exporting, rename the signal in the Cadence Virtuoso waveform viewer to something meaningful that does not contain special characters. To do so, right-click on the signal, slect "Trace group properties", unckeck "Default" next to the name textbox and input a new name. Then, you can export the VCSV file as described above.
 
 ## How to use the script
-1. Clone the repository or download the script.
-2. Install the required dependencies:
+1. Install the required dependencies:
    ```bash
    pip install pandas numpy
    ```
-3. Import the `vcsvparser` function from the `vcsv_parser.py` file.
+2. Install the package using pip, _e.g._:
+   ```bash
+   pip install git+https://github.com/LorisMendolia/Cadence-Virtuoso-VCSV-Parser.git
+   ```
+3. Import the `vcsvparser` function from the package:
 	```python
 	from vcsv_parser import vcsvparser
 	```
-4. Call the `vcsvparser` function with the path to the VCSV file as an argument.
+4. Call the `vcsvparser` function with the path to the VCSV file as an argument:
 	```python
 	metadata, data = vcsvparser('path/to/your/file.vcsv')
 	```
