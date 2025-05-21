@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name='vcsv_parser'
+version='0.0.1a'
+dependencies=[
+	'pandas',
+	'numpy'
+]
+requires-python='>=3.8'
+authors=[
+	{name = "Loris Mendolia", email = "lorismendolia@hotmail.com"}
+]
+description='VCSV Parser to import Cadence Virtuoso simulation data in Python'
+license='LGPL-2.1'
+[project.urls]
+Repository  ='https://github.com/LorisMendolia/Cadence-Virtuoso-VCSV-Parser'
